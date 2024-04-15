@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1a66728ebaa9b704682fcaee6c2a079d
+guid: 0954887ad5ba00a438742019fb3defb9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 448
+  spritePixelsToUnits: 14
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle_sheet_0
+      name: lostmoonlight_protag_idle_F_0
       rect:
         serializedVersion: 2
-        x: 64
-        y: 1024
-        width: 448
-        height: 928
+        x: 0
+        y: 24
+        width: 14
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,41 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b40acfa2df303ee4b9437c12e6811fd6
-      internalID: -1823475789
+      spriteID: 47a0ac170e3ebda40b1205df0f4fae9f
+      internalID: -1251428028
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle_sheet_1
+      name: lostmoonlight_protag_idle_F_1
       rect:
         serializedVersion: 2
-        x: 704
-        y: 1024
-        width: 448
-        height: 928
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 171b62896a2e2e94592ee6399e672673
-      internalID: -1577018453
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: idle_sheet_2
-      rect:
-        serializedVersion: 2
-        x: 64
+        x: 0
         y: 0
-        width: 448
-        height: 928
+        width: 14
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b69af0341c9b3c45afe3f80e6db705d
-      internalID: -1532728746
+      spriteID: 08240046556ba214aa44df415cf2d82f
+      internalID: -1142788358
       vertices: []
       indices: 
       edges: []
@@ -183,9 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      idle_sheet_0: -1823475789
-      idle_sheet_1: -1577018453
-      idle_sheet_2: -1532728746
+      lostmoonlight_protag_idle_F_0: -1251428028
+      lostmoonlight_protag_idle_F_1: -1142788358
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
