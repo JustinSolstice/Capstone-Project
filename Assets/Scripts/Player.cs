@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    enum Direction
-    {
-        Right,
-        Left,
-    }
-
     Rigidbody2D rb;
     Animator animator;
     float speed = 2;
@@ -20,8 +14,8 @@ public class Player : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
-    Direction direction = Direction.Right;
     bool foward = true;
+    bool flipped = false;
     // Update is called once per frame
     void Update()
     {
@@ -35,24 +29,29 @@ public class Player : MonoBehaviour
         rb.MovePosition(rb.position + Time.deltaTime * movement * speed);
         animator.SetBool("Walking", movement.x != 0 || movement.y != 0);
 
-        if (movement.x > 0)
-        {
-
-        }
-        else if (movement.x < 0)
-        {
-
-        }
-
-        if (movement.y > 0 && !foward)
-        {
-            animator.SetTrigger("Back");
-            foward = true;
-        }
-        else if (movement.y < 0 && foward)
+        if (movement.y < 0 && !foward)
         {
             animator.SetTrigger("Foward");
+            foward = true;
+        }
+        else if (movement.y > 0 && foward)
+        {
+            animator.SetTrigger("Back");
             foward = false;
         }
+
+        if (!flipped && ((movement.x < 0 && foward) || (movement.x > 0 && !foward)))
+        {
+            flipped = true;
+        }
+        else if (flipped && ((movement.x > 0 && foward) || (movement.x < 0 && !foward)))
+        {
+            flipped = false;
+        }
+
+        if (flipped) transform.rotation = new Quaternion(0, 180, 0, 1);
+        else transform.rotation = new Quaternion(0, 0, 0, 1);
+
+        rb.velocity = Vector2.zero;
     }
 }
