@@ -78,7 +78,11 @@ public class GameManager : MonoBehaviour
     IEnumerator sceneTransition(string scene) {
         RectTransform transitionTransform = GUIManager.Instance.transitionScreen.GetComponent<RectTransform>();
 
-        while (LeanTween.isTweening(UiTween.id)) {yield return new WaitForEndOfFrame();}
+        bool fading = true;
+        while (fading) {
+
+            yield return new WaitForEndOfFrame();
+        }
 
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(scene);
         asyncOperation.allowSceneActivation = false;

@@ -53,5 +53,7 @@ public class Player : MonoBehaviour
         else transform.rotation = new Quaternion(0, 0, 0, 1);
 
         rb.velocity = Vector2.zero;
+
+        if (Input.GetKeyDown(KeyCode.Space)) animator.Play("BoxDive");
     }
 }

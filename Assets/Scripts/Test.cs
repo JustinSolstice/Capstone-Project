@@ -8,11 +8,11 @@ using UnityEngine;
 public class Test : ProximityPrompt
 {
     public override void OnInteract() {
-        Active = false;
+        active = false;
         GUIManager.Instance.textbox.CreateTextSequence(new string[] { "prompt pressed", "yippie and such" }, TextFinished);
         void TextFinished()
         {
-            Active = true;
+            active = true;
         }
     }
 }
