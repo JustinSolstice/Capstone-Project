@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
             animator.SetTrigger("Back");
             foward = false;
         }
+        animator.SetBool("FacingFoward", foward);
 
         if (!flipped && ((movement.x < 0 && foward) || (movement.x > 0 && !foward)))
         {
@@ -55,5 +56,6 @@ public class Player : MonoBehaviour
         rb.velocity = Vector2.zero;
 
         if (Input.GetKeyDown(KeyCode.Space)) animator.Play("BoxDive");
+        if (Input.GetKeyDown(KeyCode.Return)) animator.SetTrigger("Ponder");
     }
 }
