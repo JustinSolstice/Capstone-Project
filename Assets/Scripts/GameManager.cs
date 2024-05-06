@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     private GameObject currentBoss;
 
+    [SerializeField] GameObject enemyPrefab;
+
     public GameObject Player { 
         get {
             if (player == null) {
@@ -24,6 +26,9 @@ public class GameManager : MonoBehaviour
         } 
     }
     public GameObject CurrentBoss { get => currentBoss; set => currentBoss = value; }
+
+    //Collider2D[] enemySpawns;
+
 
     void Awake()
     {
@@ -41,6 +46,10 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
+        //enemySpawns = new Collider2D[] { GameObject.Find("EnemySpawn").GetComponent<Collider2D>() };
+        enemyPrefab = (GameObject) Resources.Load("Enemy");
+        enemyPrefab.SetActive(false);
+
         currentBoss = GameObject.Find("Boss");
     }
 
@@ -55,6 +64,13 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = Player.transform.position + Vector3.back;
     }
 
+    void SpawnEnemy(Vector3 pos) {
+        GameObject enemy = Instantiate(enemyPrefab);
+        //Vector3 pos = new Vector3(UnityEngine.Random.Range(enemySpawns[0].bounds.min.x, enemySpawns[0].bounds.max.x), UnityEngine.Random.Range(enemySpawns[0].bounds.min.y, enemySpawns[0].bounds.max.y));
+        enemy.transform.position = pos;
+        enemy.SetActive(true);
+    }
+
     public void TransitionToScene(string scene) {
         StartCoroutine(sceneTransition(scene));
     }
@@ -64,7 +80,7 @@ public class GameManager : MonoBehaviour
 
         bool fading = true;
         while (fading) {
-            Vector2 pos = transitionTransform.anchoredPosition;
+
             yield return new WaitForEndOfFrame();
         }
 
