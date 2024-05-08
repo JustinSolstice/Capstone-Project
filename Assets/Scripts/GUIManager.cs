@@ -32,6 +32,14 @@ public class GUIManager : MonoBehaviour
         textbox = gameObject.GetOrAddComponent<Textbox>();
     }
 
+    public Animator Transition(bool transIn)
+    {
+        print(transIn);
+        Animator animator = transitionScreen.GetComponent<Animator>();
+        animator.Play(transIn ? "TransIn" : "TransOut");
+        return animator;
+    }
+
     private void Update() {
         foreach (GameObject item in GameObject.FindGameObjectsWithTag("ProximityPrompt"))
         {
