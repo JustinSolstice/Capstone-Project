@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    float arc = 45f;
+    float arc = 40f;
+    float detectionRange = 5;
+    float facingDegrees = 0;
+
     LineRenderer[] lines = new LineRenderer[2];
     // Start is called before the first frame update
     void Start()
@@ -16,18 +19,29 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        SetLinePositions(math.radians(facingDegrees))
+        if (CheckForDetection()) {
+            print("detected")
+        }
     }
 
-    protected void SetLinePositionsByDirection(Vector3 dir)
-    {
-        //breaking this down so future me dosent have a stroke reading this
-        //gets vector3 that points to the direction starting from the gameobject to the mouse position, .normalized causes the vector to have a max of 1
-        dir = dir.normalized;
-        //this converts the vector3 to radians
-        float aimRads = math.atan2(dir.y, dir.x);
-        //after which two directions vectors are made, using math shit we get two positions which corrospond to the vector being rotated by the amount of
-        //degrees from the arc value
+    protected bool CheckForDetection() {
+        List<Collider2D> results;
+        Physics2D.OverlapCircle(transform.position, detectionRange, null, results);
+        foreach (Collider2D item in results) {
+            if (item.gameObject.CompareTag("Player")) {
+                Vector2 dir = (Vector2)(transform.position - item.transform.position).normalized;
+                float rads = math.atan2(dir.y, dir.x);
+                if (rads >= math.radians(facingDegrees-arc/2) && rads <= math.radians(facingDegrees+arc/2)) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
+
+    protected void SetLinePositions(float aimRads) {
         Vector2[] directions = new Vector2[2] {
             new Vector2(math.cos(aimRads + math.radians(-arc/2)), math.sin(aimRads + math.radians(-arc/2))),
             new Vector2(math.cos(aimRads + math.radians(arc/2)), math.sin(aimRads + math.radians(arc/2)))
@@ -37,5 +51,12 @@ public class Enemy : MonoBehaviour
         {
             lines[i].SetPositions(new Vector3[2] { transform.position, transform.position + new Vector3(directions[i].x, directions[i].y, 0) * 7 });
         }
+    }
+
+    protected void SetLinePositions(Vector2 dir) {
+        dir = dir.normalized;
+        //this converts the vector3 to radians
+        float aimRads = math.atan2(dir.y, dir.x);
+        SetLinePositions(aimRads);
     }
 }
