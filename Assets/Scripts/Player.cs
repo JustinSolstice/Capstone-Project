@@ -14,38 +14,45 @@ public class Player : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
+    public bool allowMovement = false;
     bool foward = true;
     bool flipped = false;
     // Update is called once per frame
+    Vector3 lastPosition;
     void Update()
     {
+        lastPosition = rb.position
 
-        Vector2 movement = new Vector2();
-        if (Input.GetKey(KeyCode.W)) movement.y += 1f/2;
-        if (Input.GetKey(KeyCode.S)) movement.y -= 1f/2;
-        if (Input.GetKey(KeyCode.D)) movement.x += 1;
-        if (Input.GetKey(KeyCode.A)) movement.x -= 1;
+        if (allowMovement)  {
+            Vector2 movement = new Vector2();
 
-        rb.MovePosition(rb.position + Time.deltaTime * movement * speed);
-        animator.SetBool("Walking", movement.x != 0 || movement.y != 0);
+            if (Input.GetKey(KeyCode.W)) movement.y += 1f/2;
+            if (Input.GetKey(KeyCode.S)) movement.y -= 1f/2;
+            if (Input.GetKey(KeyCode.D)) movement.x += 1;
+            if (Input.GetKey(KeyCode.A)) movement.x -= 1;
+            rb.MovePosition(rb.position + Time.deltaTime * movement * speed);
+        }
 
-        if (movement.y < 0 && !foward)
+        Vector2 positionShift = rb.position - lastPosition
+        animator.SetBool("Walking", positionShift.x != 0 || positionShift.y != 0);
+
+        if (positionShift.y < 0 && !foward)
         {
             animator.SetTrigger("Foward");
             foward = true;
         }
-        else if (movement.y > 0 && foward)
+        else if (positionShift.y > 0 && foward)
         {
             animator.SetTrigger("Back");
             foward = false;
         }
         animator.SetBool("FacingFoward", foward);
 
-        if (!flipped && ((movement.x < 0 && foward) || (movement.x > 0 && !foward)))
+        if (!flipped && ((positionShift.x < 0 && foward) || (positionShift.x > 0 && !foward)))
         {
             flipped = true;
         }
-        else if (flipped && ((movement.x > 0 && foward) || (movement.x < 0 && !foward)))
+        else if (flipped && ((positionShift.x > 0 && foward) || (positionShift.x < 0 && !foward)))
         {
             flipped = false;
         }
