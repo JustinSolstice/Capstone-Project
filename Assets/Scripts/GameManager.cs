@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator sceneTransition(string scene) {
-        Animator animator = GUIManager.Instance.Transition(false);
+        Animator animator = GUIManagerw.Instance.Transition(false);
 
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("TransOut") ||
         !(animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)) {
