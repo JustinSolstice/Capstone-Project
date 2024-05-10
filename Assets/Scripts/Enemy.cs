@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
         //then for the two linerenderers we set two positions, one at the transform and one at  the transform PLUS one of the direction vectors fron earlier
         for (int i = 0; i < 2; i++)
         {
-            lines[i].SetPositions(new Vector3[2] { transform.position, transform.position + new Vector3(directions[i].x, directions[i].y, 0) * 7 });
+            lines[i].SetPositions(new Vector3[2] { transform.position, transform.position + new Vector3(directions[i].x, directions[i].y, 0) * detectionRange })
         }
     }
 
