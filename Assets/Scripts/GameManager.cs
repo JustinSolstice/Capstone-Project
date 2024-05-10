@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
 
     private GameObject player;
 
-
     public GameObject Player { 
         get {
             if (player == null) {
@@ -23,8 +22,6 @@ public class GameManager : MonoBehaviour
             return player;
         } 
     }
-
-
 
     void Awake()
     {
@@ -43,7 +40,6 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-
     // Update is called once per frame
     void Update()
     {
@@ -59,7 +55,7 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator sceneTransition(string scene) {
-        Animator animator = GUIManagerw.Instance.Transition(false);
+        Animator animator = GUIManager.Instance.Transition(false);
 
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("TransOut") ||
         !(animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)) {

@@ -6,14 +6,12 @@ public class Player : Unit
 {
     float speed = 4;
 
-    public bool allowControl = false;
+    public bool allowControl = true;
     public bool inBox = false;
     // Update is called once per frame
-    Vector3 lastPosition;
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update()
-
+        base.FixedUpdate();
         if (allowControl)  {
             Vector2 movement = new Vector2();
 
@@ -21,7 +19,7 @@ public class Player : Unit
             if (Input.GetKey(KeyCode.S)) movement.y -= 1f/2;
             if (Input.GetKey(KeyCode.D)) movement.x += 1;
             if (Input.GetKey(KeyCode.A)) movement.x -= 1;
-            rb.MovePosition(rb.position + Time.deltaTime * movement * speed);
+            rb.MovePosition(rb.position + Time.fixedDeltaTime * movement * speed);
             if (movement != new Vector2()) inBox = false;
 
             if (Input.GetKeyDown(KeyCode.Space)) {
