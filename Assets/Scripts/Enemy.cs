@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -20,21 +21,44 @@ public class Enemy : Unit
     protected void Update()
     {
         SetLinePositions(math.radians(facingDegrees));
-        if (CheckForDetection()) {
+        facingDegrees += 45 * Time.deltaTime;
+        if (facingDegrees < 0) facingDegrees += 360;
+        else if (facingDegrees >= 360) facingDegrees -= 360;
+
+        if (CheckForDetection())
+        {
             print("detected");
+            foreach (LineRenderer item in lines)
+            {
+                item.startColor = Color.red;
+                item.endColor = new Color(item.startColor.r, item.startColor.g, item.startColor.b, 0);
+            }
         }
+        else
+        {
+            foreach (LineRenderer item in lines)
+            {
+                item.startColor = Color.white;
+                item.endColor = new Color(item.startColor.r, item.startColor.g, item.startColor.b, 0);
+            }
+        }
+    }
+
+    private bool radiansInArc(float radian, float arcMidpoint, float arcSize) {
+        if (radian < 0) radian += math.PI*2;
+        else if (radian >= math.PI*2) radian -= math.PI * 2;
+        if (arcMidpoint < 0) arcMidpoint += math.PI * 2;
+        else if (arcMidpoint >= math.PI*2) arcMidpoint -= math.PI * 2;
+
+        return radian >= arcMidpoint - arcSize / 2 && radian <= arcMidpoint + arcSize / 2;
     }
 
     protected bool CheckForDetection() {
         foreach (Collider2D item in Physics2D.OverlapCircleAll(transform.position, detectionRange)) {
             if (item.gameObject.CompareTag("Player")) {
                 Vector2 dir = (item.transform.position - transform.position).normalized;
-                float rads = math.atan2(dir.y, dir.x);
-                print(rads + " | " + math.radians(facingDegrees));
-                if (rads >= math.radians(facingDegrees-arc/2) && rads <= math.radians(facingDegrees+arc/2)) {
-                    return true;
-                }
-                break;
+                float playerRadians = math.atan2(dir.y, dir.x);
+                return radiansInArc(playerRadians, math.radians(facingDegrees), math.radians(arc));
             }
         }
         return false;
