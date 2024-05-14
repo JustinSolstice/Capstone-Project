@@ -20,12 +20,20 @@ public class Player : Unit
             if (Input.GetKey(KeyCode.D)) movement.x += 1;
             if (Input.GetKey(KeyCode.A)) movement.x -= 1;
             rb.MovePosition(rb.position + Time.fixedDeltaTime * movement * speed);
-            if (movement != new Vector2()) inBox = false;
-
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                animator.Play("BoxDive");
+            if (movement != new Vector2()) {
+                movementAnimations = true;
+                inBox = false;
             }
-            if (Input.GetKeyDown(KeyCode.Space)) animator.SetTrigger("Ponder");
+
+            if (Input.GetKeyDown(KeyCode.RightShift)) {
+                animator.Play("BoxDive");
+                movementAnimations = false;
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                animator.SetTrigger("Ponder");
+                movementAnimations = false;
+            }
         }
 
         //this is so the player isnt set to inside the box until the animation is complete

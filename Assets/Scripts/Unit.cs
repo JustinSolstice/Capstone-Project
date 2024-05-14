@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
 {
     protected Rigidbody2D rb;
     protected Animator animator;
+    protected bool movementAnimations;
 
     protected Vector2 movement;
     // Start is called before the first frame update
@@ -24,7 +25,7 @@ public class Unit : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
         Vector2 positionShift =  lastPosition - rb.position;
-        if (animator != null)
+        if (animator != null && movementAnimations)
         {
             animator.SetBool("Walking", positionShift != Vector2.zero);
             if (positionShift.y > 0 && !foward)

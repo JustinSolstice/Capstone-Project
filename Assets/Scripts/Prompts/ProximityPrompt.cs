@@ -9,11 +9,12 @@ using UnityEngine;
 public abstract class ProximityPrompt : MonoBehaviour
 {
     public float radius;
-    public KeyCode interactKey;
-    public GameObject UI;
 
     public bool active = true;
-    public bool showUi = false;
+    [HideInInspector] public bool showUi = false;
+    [HideInInspector] public GameObject UI;
+
+    private KeyCode interactKey = KeyCode.E;
     /*
     private void TweenUI(bool show) {
         print(show);
@@ -49,7 +50,7 @@ public abstract class ProximityPrompt : MonoBehaviour
 
     public abstract void OnInteract();
 
-    private void OnDestroy() {
+    private void OnDisable() {
         Destroy(UI);
     }
 }

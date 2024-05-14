@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8950965263752038430}
   m_Layer: 5
   m_Name: Prompt
-  m_TagString: ProximityPrompt
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,6 +116,8 @@ MonoBehaviour:
   UI: {fileID: 0}
   active: 1
   showUi: 0
+  text:
+  - 
 --- !u!1 &8819284866834718141
 GameObject:
   m_ObjectHideFlags: 0
