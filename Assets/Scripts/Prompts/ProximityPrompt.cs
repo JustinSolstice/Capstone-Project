@@ -14,7 +14,7 @@ public abstract class ProximityPrompt : MonoBehaviour
     [HideInInspector] public bool showUi = false;
     [HideInInspector] public GameObject UI;
 
-    private KeyCode interactKey = KeyCode.E;
+    public KeyCode interactKey = KeyCode.E;
     /*
     private void TweenUI(bool show) {
         print(show);

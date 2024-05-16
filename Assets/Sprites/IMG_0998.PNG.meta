@@ -117,8 +117,8 @@ TextureImporter:
         y: 275
         width: 42
         height: 26
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -613,6 +613,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: stairs
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 203
+        width: 98
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaa9308b3504d9d47bcc4cd85d4c9fb1
+      internalID: 1260257963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -648,6 +669,7 @@ TextureImporter:
       IMG_0998_7: 839259913
       IMG_0998_8: 334703726
       IMG_0998_9: 1004443098
+      stairs: 1260257963
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

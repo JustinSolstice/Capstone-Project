@@ -69,4 +69,9 @@ public class GameManager : MonoBehaviour
         GUIManager.Instance.Transition(true);
         do { yield return new WaitForEndOfFrame();} while (!asyncOperation.isDone);
     }
+
+    public void Lose() {
+        player.GetComponent<Player>().allowControl = false;
+        GUIManager.Instance.ShowGameOverUI(true);
+    }
 }

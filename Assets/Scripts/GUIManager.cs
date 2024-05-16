@@ -86,6 +86,10 @@ public class GUIManager : MonoBehaviour
             if (Input.GetKeyDown(kvp.Key) && kvp.Value.prompt.active) kvp.Value.prompt.OnInteract();
         }
     }
+
+    public void ShowGameOverUI(bool show) {
+        
+    }
 }
 class PromptData
 { //used to simplify comparing prompts and such
