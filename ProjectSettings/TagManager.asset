@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - ProximityPrompt
+  - Enemy
   layers:
   - Default
   - TransparentFX

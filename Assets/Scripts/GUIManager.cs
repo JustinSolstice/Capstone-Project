@@ -10,6 +10,7 @@ public class GUIManager : MonoBehaviour
     [HideInInspector] public static GUIManager Instance;
 
     [HideInInspector] public GameObject transitionScreen;
+    [HideInInspector] public GameObject gameOverGui;
     [HideInInspector] public Textbox textbox;
 
     private Dictionary<KeyCode, PromptData> prompts = new Dictionary<KeyCode, PromptData>();
@@ -29,6 +30,7 @@ public class GUIManager : MonoBehaviour
     void Start()
     {
         transitionScreen = gameObject.transform.Find("Transition").gameObject;
+        gameOverGui = gameObject.transform.Find("GameOver").gameObject;
         textbox = gameObject.GetOrAddComponent<Textbox>();
     }
 
@@ -88,7 +90,10 @@ public class GUIManager : MonoBehaviour
     }
 
     public void ShowGameOverUI(bool show) {
-        
+        gameOverGui.SetActive(show);
+        if (!show) return;
+        Animator animator = gameOverGui.GetComponent<Animator>();
+        animator.Play("TransIn");
     }
 }
 class PromptData

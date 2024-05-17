@@ -11,7 +11,9 @@ public class Textbox : MonoBehaviour
 
     private GameObject textbox;
     private TextMeshProUGUI textMesh;
-    string[] textArrays;
+    private GameObject nameLabel;
+    private GameObject portrait;
+    Dialouge[] textArrays;
     int textArrayIndex;
 
     private Coroutine typingCoroutine;
@@ -21,7 +23,9 @@ public class Textbox : MonoBehaviour
     {
         if (textbox == null) textbox = gameObject.transform.Find("Textbox").gameObject;
         if (textMesh == null) textMesh = textbox.GetComponentInChildren<TextMeshProUGUI>();
-        CreateText("testing text");
+        if (nameLabel == null) nameLabel = textbox.transform.Find("Name").gameObject;
+        if (portrait == null) portrait = textbox.transform.Find("Portrait").gameObject;
+        StopCurrentText(false);
     }
 
     void ResizeText()
@@ -31,7 +35,6 @@ public class Textbox : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) CreateTextSequence(new string[] { "guys look the textbox is working.", "ajnfkdjgndsgldzs" });
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (typing) typing = false;
@@ -49,10 +52,19 @@ public class Textbox : MonoBehaviour
     }
 
     int textIndex = 0;
-    void CreateText(string txt, float delay = 0.01f)
+    void CreateText(Dialouge txt, float delay = 0.01f)
     {
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-        typingCoroutine = StartCoroutine(drawTxt(txt, delay));
+        typingCoroutine = StartCoroutine(drawTxt(txt.text, delay));
+        if (txt.name != null) {
+            nameLabel.GetComponentInChildren<TextMeshProUGUI>().text = txt.name;
+        }
+        nameLabel.gameObject.SetActive(txt.name != null);
+
+        if (txt.portraitImg != null) {
+            portrait.GetComponentInChildren<Image>().sprite = (Sprite)Resources.Load("Images/Portriats/" + txt.portraitImg);
+        }
+        portrait.gameObject.SetActive(txt.portraitImg != null);
     }
     private IEnumerator drawTxt(string txt, float delay)
     {
@@ -72,13 +84,13 @@ public class Textbox : MonoBehaviour
         textIndex = txt.Length;
     }
 
-    public void CreateTextSequence(string[] txt, Action complete = null)
+    public void CreateTextSequence(Dialouge[] txt, Action complete = null)
     {
         if (textArrays != null) StopCurrentText(true);
         textArrayIndex = 0;
         textArrays = txt;
         onComplete = complete;
-        CreateText(textArrays[textArrayIndex]);
+        CreateText(txt[textArrayIndex]);
     }
 
     private void StopCurrentText(bool showBox = false)
@@ -105,11 +117,17 @@ public class Textbox : MonoBehaviour
         };
 
         textArrayIndex += 1;
-        print(textArrayIndex);
         if (textArrayIndex < textArrays.Length) CreateText(textArrays[textArrayIndex]);
         else
         {
             StopCurrentText();
         }
     }
+}
+
+[Serializable]
+public class Dialouge {
+    [SerializeField] public string text;
+    [SerializeField] public string portraitImg;
+    [SerializeField] public string name;
 }

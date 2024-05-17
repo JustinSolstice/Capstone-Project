@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : Unit
 {
-    float speed = 4;
+    float speed = 4f;
 
     public bool allowControl = true;
     public bool inBox = false;
@@ -40,6 +40,12 @@ public class Player : Unit
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("BoxDive") && 
         animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f) {
             inBox = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Enemy")) {
+            GameManager.Instance.Lose();
         }
     }
 }

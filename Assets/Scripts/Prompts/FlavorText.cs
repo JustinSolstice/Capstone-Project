@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class FlavorText : ProximityPrompt
 {
-    [SerializeField] string[] text;
+    [SerializeField] Dialouge[] text;
     public override void OnInteract() {
         active = false;
         GUIManager.Instance.textbox.CreateTextSequence(text, TextFinished);

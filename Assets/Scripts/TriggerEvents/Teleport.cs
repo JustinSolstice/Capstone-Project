@@ -21,7 +21,6 @@ public class Teleport : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!active) return;
-        print(collision.gameObject.name);
         if (collision.gameObject.CompareTag("Player"))
         {
             StartCoroutine(teleportTransition());

@@ -68,10 +68,17 @@ public class GameManager : MonoBehaviour
         asyncOperation.allowSceneActivation = true;
         GUIManager.Instance.Transition(true);
         do { yield return new WaitForEndOfFrame();} while (!asyncOperation.isDone);
+        Time.timeScale = 1;
     }
 
     public void Lose() {
         player.GetComponent<Player>().allowControl = false;
+        Time.timeScale = 0;
         GUIManager.Instance.ShowGameOverUI(true);
+    }
+
+    public void Restart() {
+        TransitionToScene(SceneManager.GetActiveScene().name);
+        GUIManager.Instance.ShowGameOverUI(false);
     }
 }
