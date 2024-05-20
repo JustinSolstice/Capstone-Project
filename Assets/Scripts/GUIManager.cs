@@ -92,6 +92,11 @@ public class GUIManager : MonoBehaviour
         Animator animator = gameOverGui.GetComponent<Animator>();
         animator.Play("TransIn");
     }
+
+    public void Restart()
+    {
+        GameManager.Instance.Restart();
+    }
 }
 class PromptData
 { //used to simplify comparing prompts and such
