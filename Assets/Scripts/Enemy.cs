@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : Unit
 {
@@ -21,6 +22,7 @@ public class Enemy : Unit
     public float degreesShift = 45;
     public bool showLines = true;
     [SerializeField] float facingDegrees = 0; //IN DEGREES
+    [SerializeField] bool randomFacingDegrees = true; 
 
     public GameObject pursuitTarget;
     public PursuitType pursuitType = PursuitType.Normal;
@@ -30,9 +32,9 @@ public class Enemy : Unit
     LineRenderer[] lines = new LineRenderer[2];
 
     protected override void Awake() {
-        if (facingDegrees == 0)
+        if (randomFacingDegrees)
         {
-            UnityEngine.Random.Range(0, 359);
+            facingDegrees = UnityEngine.Random.Range(0, 359);
         }
         base.Awake();
     }
@@ -52,7 +54,7 @@ public class Enemy : Unit
         if (facingDegrees < 0) facingDegrees += 360;
         else if (facingDegrees >= 360) facingDegrees -= 360;
 
-        if (checkForDetection()) pursuitTarget = GameManager.Instance.Player;
+        if (checkForDetection(GameManager.Instance.Player)) pursuitTarget = GameManager.Instance.Player;
 
         foreach (LineRenderer item in lines)
         {
@@ -65,14 +67,17 @@ public class Enemy : Unit
                 item.gameObject.SetActive(false);
                 continue;
             }
-            item.startColor = checkForDetection() ? Color.red : Color.white;
+            item.startColor = checkForDetection(GameManager.Instance.Player) ? Color.red : Color.white;
             item.endColor = new Color(item.startColor.r, item.startColor.g, item.startColor.b, 0);
         }
 
     }
 
+
     protected override void FixedUpdate() {
-        if (pursuitTarget) {
+        if (checkForDetection(GameManager.Instance.Player)) pursuitTarget = GameManager.Instance.Player;
+
+        if (pursuitTarget != null && pursuitTarget.activeInHierarchy) {
             Vector3 direction = pursuitTarget.transform.position - transform.position;
             facingDegrees = math.degrees(math.atan2(direction.y, direction.x));
             
@@ -107,6 +112,10 @@ public class Enemy : Unit
                 print(gameObject.name + " lost sight");
                 pursuitTarget = null;
             }
+        }
+        else
+        {
+            pursuitTarget = null;
         }
 
         if (targetLastSeenPos != Vector2.zero) {
@@ -152,7 +161,6 @@ public class Enemy : Unit
         foreach (RaycastHit2D hit in Physics2D.RaycastAll(transform.position, (target.transform.position - transform.position).normalized, (target.transform.position - transform.position).magnitude))
         {
             if (hit.transform == transform || hit.transform == target.transform) continue;
-            print(hit.transform.gameObject.name);
             return false;
         }
         return true;
@@ -173,6 +181,7 @@ public class Enemy : Unit
 
     protected bool checkForDetection(GameObject target = null) {
         if (target == null) target = GameObject.FindGameObjectWithTag("Player");
+        if (target == null || !target.activeInHierarchy) return false;
         return targetInRange(target) && targetInArc(target) && canSeeTarget(target);
     }
 
@@ -184,7 +193,14 @@ public class Enemy : Unit
         //then for the two linerenderers we set two positions, one at the transform and one at  the transform PLUS one of the direction vectors fron earlier
         for (int i = 0; i < 2; i++)
         {
-            lines[i].SetPositions(new Vector3[2] { transform.position, transform.position + new Vector3(directions[i].x, directions[i].y, 0) * detectionRange });
+            Vector2 end = transform.position + new Vector3(directions[i].x, directions[i].y, 0) * detectionRange;
+            foreach (RaycastHit2D hit in Physics2D.RaycastAll(transform.position, directions[i], detectionRange))
+            {
+                if (hit.transform == transform) continue;
+                end = hit.point;
+                break;
+            }
+            lines[i].SetPositions(new Vector3[2] { transform.position, end});
         }
     }
 

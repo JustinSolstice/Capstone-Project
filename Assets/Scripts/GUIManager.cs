@@ -25,10 +25,7 @@ public class GUIManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
+
         transitionScreen = gameObject.transform.Find("Transition").gameObject;
         gameOverGui = gameObject.transform.Find("GameOver").gameObject;
         textbox = gameObject.GetOrAddComponent<Textbox>();

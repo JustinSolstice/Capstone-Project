@@ -10,7 +10,7 @@ public class SetEnemyBehavior : MonoBehaviour
         if (collision.GetComponent<Enemy>()) {
             enemy.detectionRange = 5;
             enemy.showLines = true;
-            enemy.degreesShift = 45;
+            enemy.degreesShift = 35;
             enemy.pursuitType = Enemy.PursuitType.InfRange;
         }
     }

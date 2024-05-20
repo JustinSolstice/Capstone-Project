@@ -12,11 +12,11 @@ public class GameManager : MonoBehaviour
 {
     [HideInInspector] public static GameManager Instance;
 
-    private GameObject player;
+    [SerializeField] private GameObject player;
 
     public GameObject Player { 
         get {
-            if (player == null) {
+            if (player == null || !player.activeInHierarchy) {
                 player = GameObject.FindGameObjectWithTag("Player");
             }
             return player;
@@ -33,20 +33,17 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
+
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
     void Update()
     {
         //GameObject.Find("Debug").GetComponent<TextMeshProUGUI>().text = "" + math.round(player.GetComponent<Unit>().arc);
     }
 
     private void LateUpdate() {
+        if (player == null) return;
         Camera.main.transform.position = Player.transform.position + Vector3.back;
     }
 
@@ -57,8 +54,7 @@ public class GameManager : MonoBehaviour
     IEnumerator sceneTransition(string scene) {
         Animator animator = GUIManager.Instance.Transition(false);
 
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("TransOut") ||
-        !(animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)) {
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("TransOut") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) {
             yield return new WaitForEndOfFrame();
         }
 
@@ -66,9 +62,26 @@ public class GameManager : MonoBehaviour
         asyncOperation.allowSceneActivation = false;
         while (asyncOperation.progress < 0.9f) {yield return new WaitForEndOfFrame();}
         asyncOperation.allowSceneActivation = true;
-        GUIManager.Instance.Transition(true);
         do { yield return new WaitForEndOfFrame();} while (!asyncOperation.isDone);
+
+        GUIManager.Instance.Transition(true);
         Time.timeScale = 1;
+    }
+
+    IEnumerator quitTransition()
+    {
+        Animator animator = GUIManager.Instance.Transition(false);
+
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("TransOut") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        Application.Quit();
+    }
+    public void Quit()
+    {
+        StopAllCoroutines();
+        StartCoroutine(quitTransition());
     }
 
     public void Lose() {
